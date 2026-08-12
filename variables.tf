@@ -15,7 +15,7 @@ variable "student_name" {
 variable "location" {
   description = "Región de Azure más cercana"
   type        = string
-  default     = "westus3"
+  default     = "centralus"
 }
 
 variable "vm_size" {
