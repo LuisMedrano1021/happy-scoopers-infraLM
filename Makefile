@@ -7,7 +7,7 @@
 # Regiones candidatas para check-region (cercanas a Centroamérica).
 REGIONS_CANDIDATAS ?= centralus eastus eastus2 southcentralus westcentralus canadacentral
 
-.PHONY: help check-region desplegar plan urls apagar encender destruir
+.PHONY: help check-region llave desplegar plan urls apagar encender destruir
 
 help:  ## Muestra esta ayuda
 	@echo "Comandos disponibles:"
@@ -75,3 +75,6 @@ encender:  ## Encender la máquina para la clase
 
 destruir:  ## Borrar TODO (fin del curso)
 	terraform destroy
+
+llave:  ## Generar tu llave SSH (si no existe)
+	@ls ~/.ssh/id_rsa.pub >/dev/null 2>&1 && echo "Ya tienes llave SSH" || (ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" && echo "Llave SSH creada")
