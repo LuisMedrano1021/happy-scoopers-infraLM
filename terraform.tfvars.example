@@ -6,6 +6,6 @@ acme_email       = "tu-correo@ejemplo.com"
 pgadmin_password = "unaClaveTuya"
 # ssh_public_key_path = "~/.ssh/id_rsa.pub"      # descomenta si tu llave tiene otro nombre
 
-# Región de Azure. Si tu cuenta no permite 'centralus', corre:
+# Región de Azure. Si tu cuenta no permite 'northcentralus', corre:
 #   make check-region   y usa la que te indique.
-location = "centralus"
+location = "northcentralus"

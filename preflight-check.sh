@@ -149,6 +149,32 @@ if [ "$have_az" -eq 1 ]; then
     done
 
     # --- SKU availability + regional quota ---
+
+    # --- allowed deployment regions policy ---------------------------------------
+	echo
+	echo "Azure Policy:"
+
+	allowed_regions=$(az policy assignment list \
+	  --disable-scope-strict-match true \
+	  --query "[?name=='sys.regionrestriction'].parameters.listOfAllowedLocations.value[]" \
+	  -o tsv 2>/dev/null)
+
+	if [ -z "$allowed_regions" ]; then
+	  wn "could not determine allowed deployment regions"
+	  note "policy sys.regionrestriction was not found or could not be read"
+	else
+	  if printf '%s\n' "$allowed_regions" | grep -Fxqi "$AZ_REGION"; then
+	    ok "${AZ_REGION} is allowed by subscription region policy"
+	  else
+	    bad "${AZ_REGION} is blocked by subscription region policy"
+	    note "allowed regions:"
+	    while IFS= read -r r; do
+	      [ -n "$r" ] && note "  $r"
+	    done <<< "$allowed_regions"
+	  fi
+	fi	
+ 
+
     echo
     echo "Compute capacity in ${AZ_REGION}:"
     # Location restriction = not deployable at all (ERROR).

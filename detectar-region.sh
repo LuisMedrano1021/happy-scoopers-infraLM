@@ -11,7 +11,7 @@ echo ""
 RG="rg-test-region-$RANDOM"
 SKU="Standard_B2s_v2"
 # Regiones candidatas cercanas a Centroamérica, en orden de preferencia
-CANDIDATAS="centralus eastus eastus2 southcentralus westcentralus canadacentral"
+CANDIDATAS="northcentralus centralus eastus eastus2 southcentralus westcentralus canadacentral"
 
 REGION_VM=""
 REGION_STORAGE=""

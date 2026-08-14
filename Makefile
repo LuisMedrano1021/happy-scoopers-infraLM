@@ -7,7 +7,7 @@
 # Regiones candidatas para check-region (cercanas a Centroamérica).
 REGIONS_CANDIDATAS ?= centralus eastus eastus2 southcentralus westcentralus canadacentral
 
-.PHONY: help check-region llave desplegar plan urls apagar encender destruir
+.PHONY: help check-region llave desplegar plan urls apagar encender destruir limpiar-region estado
 
 help:  ## Muestra esta ayuda
 	@echo "Comandos disponibles:"
@@ -76,5 +76,17 @@ encender:  ## Encender la máquina para la clase
 destruir:  ## Borrar TODO (fin del curso)
 	terraform destroy
 
+limpiar-region:
+	./clean-region.sh $(LOCATION) dw-
+
 llave:  ## Generar tu llave SSH (si no existe)
 	@ls ~/.ssh/id_rsa.pub >/dev/null 2>&1 && echo "Ya tienes llave SSH" || (ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N "" && echo "Llave SSH creada")
+
+estado:  ## Ver el estado de tu máquina (encendida/apagada)
+	@name=$$(terraform output -raw vm_name 2>/dev/null); \
+	rg=$$(terraform output -raw resource_group 2>/dev/null); \
+	if [ -z "$$name" ]; then echo "No hay VM. ¿Ya hiciste make desplegar?"; exit 0; fi; \
+	estado=$$(az vm get-instance-view -g $$rg -n $$name --query "instanceView.statuses[?starts_with(code,'PowerState/')].displayStatus | [0]" -o tsv 2>/dev/null); \
+	echo "Máquina: $$name"; \
+	echo "Grupo:   $$rg"; \
+	echo "Estado:  $$estado"
