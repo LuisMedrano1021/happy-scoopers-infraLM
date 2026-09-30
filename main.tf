@@ -127,11 +127,3 @@ resource "azurerm_linux_virtual_machine" "lab" {
   }))
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "lab" {
-  virtual_machine_id    = azurerm_linux_virtual_machine.lab.id
-  location              = azurerm_resource_group.lab.location
-  enabled               = true
-  daily_recurrence_time = var.auto_shutdown_time
-  timezone              = var.auto_shutdown_timezone
-  notification_settings { enabled = false }
-}

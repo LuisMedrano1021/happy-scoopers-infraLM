@@ -47,13 +47,3 @@ variable "ssh_public_key_path" {
   default     = "~/.ssh/id_rsa.pub"
 }
 
-variable "auto_shutdown_time" {
-  description = "Hora de apagado automático (HHmm). Ahorra crédito."
-  type        = string
-  default     = "2200"
-}
-
-variable "auto_shutdown_timezone" {
-  type    = string
-  default = "Central America Standard Time"
-}
